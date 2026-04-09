@@ -24,6 +24,12 @@ jobs:
           workload_identity_provider: "projects/882388401722/locations/global/workloadIdentityPools/terraform-pool/providers/github"
           service_account: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
 
+      
+      
+      - name: Terraform Format
+        run: terraform fmt -recursive
+          
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
