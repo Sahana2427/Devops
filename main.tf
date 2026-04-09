@@ -1,4 +1,9 @@
 terraform {
+  backend "gcs" {
+    bucket = "terraform-state-project-96d8ec0c"
+    prefix = "terraform/state"
+  }
+
   required_providers {
     google = {
       source  = "hashicorp/google"
@@ -10,6 +15,7 @@ terraform {
 provider "google" {
   project = "project-96d8ec0c-24f0-4d1c-bb4"
   region  = "asia-south1"
+
   impersonate_service_account = "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
 }
 
@@ -28,7 +34,7 @@ resource "google_compute_subnetwork" "subnet" {
 resource "google_compute_instance" "vm" {
   name         = "sreddy-test-vm"
   machine_type = "e2-micro"
-  zone         = "asia-south1-b"   # <-- FIXED ZONE WITH CAPACITY
+  zone         = "asia-south1-b"
 
   boot_disk {
     initialize_params {
