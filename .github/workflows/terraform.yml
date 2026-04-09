@@ -5,6 +5,9 @@ permissions:
   contents: read
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -27,5 +30,14 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Manual Approval
+        uses: trstringer/manual-approval@v1
+        with:
+          approvers: "ambatis186@gmail.com, ambatisathishkumarreddy@gmail.com, sahanasan242@gmail.com"
+          minimum-approvals: 1
+
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply
