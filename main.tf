@@ -17,7 +17,7 @@ resource "google_compute_subnetwork" "subnet" {
 }
 
 resource "google_compute_instance" "vm" {
-  name         = "SReddy-test-vm"
+  name         = "sreddy-test-vm"
   machine_type = "e2-micro"
   zone         = "asia-south1-a"
 
