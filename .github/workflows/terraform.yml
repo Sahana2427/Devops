@@ -33,9 +33,15 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        env:
+          GOOGLE_IMPERSONATE_SERVICE_ACCOUNT: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
 
       - name: Terraform Plan
         run: terraform plan
+        env:
+          GOOGLE_IMPERSONATE_SERVICE_ACCOUNT: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        env:
+          GOOGLE_IMPERSONATE_SERVICE_ACCOUNT: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
