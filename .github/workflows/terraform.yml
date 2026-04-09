@@ -33,11 +33,11 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
 
-      - name: Manual Approval
-        uses: trstringer/manual-approval@v1
-        with:
-          approvers: "ambatis186@gmail.com, ambatisathishkumarreddy@gmail.com, sahanasan242@gmail.com"
-          minimum-approvals: 1
+      # - name: Manual Approval
+      #   uses: trstringer/manual-approval@v1
+      #   with:
+      #     approvers: "ambatis186@gmail.com, ambatisathishkumarreddy@gmail.com, sahanasan242@gmail.com"
+      #     minimum-approvals: 1
 
       - name: Terraform Apply
-        run: terraform apply
+        run: terraform apply -auto-approve
