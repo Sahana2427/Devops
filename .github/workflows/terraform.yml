@@ -19,6 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Authenticate to Google Cloud
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: "projects/882388401722/locations/global/workloadIdentityPools/terraform-pool/providers/github"
@@ -34,14 +35,17 @@ jobs:
       - name: Terraform Init
         run: terraform init
         env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
           GOOGLE_IMPERSONATE_SERVICE_ACCOUNT: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
 
       - name: Terraform Plan
         run: terraform plan
         env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
           GOOGLE_IMPERSONATE_SERVICE_ACCOUNT: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
           GOOGLE_IMPERSONATE_SERVICE_ACCOUNT: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
