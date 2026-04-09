@@ -10,26 +10,36 @@ on:
 jobs:
   destroy:
     runs-on: ubuntu-latest
-    environment: production   # <-- triggers approval
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Authenticate to Google Cloud
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: "projects/882388401722/locations/global/workloadIdentityPools/terraform-pool/providers/github"
           service_account: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
+          create_credentials_file: true
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
         run: terraform init
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+          GOOGLE_IMPERSONATE_SERVICE_ACCOUNT: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
 
       - name: Destroy Plan
         run: terraform plan -destroy
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+          GOOGLE_IMPERSONATE_SERVICE_ACCOUNT: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+          GOOGLE_IMPERSONATE_SERVICE_ACCOUNT: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
