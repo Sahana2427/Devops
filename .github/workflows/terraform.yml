@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Authenticate to Google Cloud
@@ -24,26 +24,17 @@ jobs:
           workload_identity_provider: "projects/882388401722/locations/global/workloadIdentityPools/terraform-pool/providers/github"
           service_account: "terraform-sa@project-96d8ec0c-24f0-4d1c-bb4.iam.gserviceaccount.com"
 
-      
-      
-      - name: Terraform Format
-        run: terraform fmt -recursive
-          
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format
+        run: terraform fmt -recursive
 
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Plan
         run: terraform plan
-
-      # - name: Manual Approval
-      #   uses: trstringer/manual-approval@v1
-      #   with:
-      #     approvers: "ambatis186@gmail.com, ambatisathishkumarreddy@gmail.com, sahanasan242@gmail.com"
-      #     minimum-approvals: 1
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
